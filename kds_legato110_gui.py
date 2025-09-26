@@ -14,6 +14,10 @@ class GuiSyringePump:
         if init_hardware:
             self.sy_pump = kds_legato110.Controller(
                 which_port='COM3', verbose=True, very_verbose=False)
+            # configure hardware settings and update:
+            self.sy_pump.set_flow_rate('infuse', 100, 'ul/sec')
+            self.sy_pump.set_target_volume(10, 'ul')
+            self.sy_pump._estimate_run_time()
             self._update_settings()
         # add close function + any commands for when the user hits the 'X'
         def _close():
