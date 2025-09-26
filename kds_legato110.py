@@ -1,4 +1,5 @@
 # Imports from the python standard library:
+import math
 import time
 
 # Third party imports, installable via pip:
@@ -306,13 +307,13 @@ class Controller:
             assert unit is None, (
                 "%s: for 'min' or 'max' flow rate, set 'unit=None'"%self.name)
         if rate == 'min' and direction == 'withdraw':
-            rate, unit = int(round(self.wrate_min)), self.wrate_min_unit
+            rate, unit = math.ceil(self.wrate_min), self.wrate_min_unit
         if rate == 'max' and direction == 'withdraw':
-            rate, unit = int(self.wrate_max), self.wrate_max_unit
+            rate, unit = math.floor(self.wrate_max), self.wrate_max_unit
         if rate == 'min' and direction == 'infuse':
-            rate, unit = int(round(self.irate_min)), self.irate_min_unit
+            rate, unit = math.ceil(self.irate_min), self.irate_min_unit
         if rate == 'max' and direction == 'infuse':
-            rate, unit = int(self.irate_max), self.irate_max_unit
+            rate, unit = math.floor(self.irate_max), self.irate_max_unit
         assert type(rate) is int, ( # int only to solve floating point problem
             "%s: unexpected type for flow rate (%s)"%(self.name, type(rate)))
         assert rate != 0, ("%s: zero flow rate not allowed"%self.name)
